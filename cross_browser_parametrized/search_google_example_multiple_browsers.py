@@ -11,34 +11,37 @@ GOOGLE_URL = 'http://www.google.com/'
 GOOGLE_SEARCH_BOX_NAME = 'q'
 SEARCH_TERM = 'Test blogs'
 
-@pytest.mark.usefixtures("firefox_driver_init")
-class Test_Search_Firefox(Basic_Firefox_Test):
+@pytest.mark.usefixtures("driver_init")
+class Test_Search_Firefox():
     def test_search_term(self):
+        # Given
         self.driver.get(GOOGLE_URL)
-
-        # Wait for user to see the page
         sleep(WAIT_TIME)
 
-        # Search for term "Test blogs"
+        # When - Search for term "Test blogs"
         google_search_box = self.driver.find_element_by_name(GOOGLE_SEARCH_BOX_NAME)
         google_search_box.send_keys(SEARCH_TERM)
         google_search_box.submit()
-
-        # Wait for the user to see the results
         sleep(WAIT_TIME) 
 
-@pytest.mark.usefixtures("chrome_driver_init")
-class Test_URL_Chrome(Basic_Chrome_Test):
-    def test_search_term(self):
-        self.driver.get(GOOGLE_URL)
+        # Then
+        link_divs = self.driver.find_elements_by_css_selector('#rso > div > div')
+        assert len(link_divs) > 0
 
-        # Wait for user to see the page
+
+@pytest.mark.usefixtures("driver_init")
+class Test_URL_Chrome():
+    def test_search_term(self):
+        # Given
+        self.driver.get(GOOGLE_URL)
         sleep(WAIT_TIME)
 
-        # Search for term "Test blogs"
+        # When - Search for term "Test blogs"
         google_search_box = self.driver.find_element_by_name(GOOGLE_SEARCH_BOX_NAME)
         google_search_box.send_keys(SEARCH_TERM)
         google_search_box.submit()
-
-        # Wait for the user to see the results
         sleep(WAIT_TIME) 
+
+        # Then
+        link_divs = self.driver.find_elements_by_css_selector('#rso > div > div')
+        assert len(link_divs) > 0
