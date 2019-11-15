@@ -5,6 +5,7 @@ Created on Nov 12, 2019
 
 Fixtures that will be shared across several tests
 '''
+import pytest
 from selenium import webdriver
 
 FIREFOXDRIVER_PATH='ChromeDriver/geckodriver'
